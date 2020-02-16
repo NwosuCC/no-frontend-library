@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8"><meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>News</title>
+  <link href='assets/css/web-fonts/font-catamaran.css' rel='stylesheet' type='text/css'>
+  <link href='assets/css/app.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<!-- Spinner -->
+<div class="overlay d-none">
+  <div class="loading">
+    <span class="spinner"></span>
+    <span class="spinner-text">L o a d i n g</span>
+  </div>
+</div>
+
+
+<!-- Content -->
+<div class="container b b-g">
+  <h1 class="news-header">News</h1>
+  <hr />
+
+  <div class="table-container">
+    <table class="table api-dom news-list">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Author</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="data-row" data-item="news" data-keys="id,title,body,author,avatar">
+        <!-- ID -->
+        <td data-key="id" style="width: 5%;">
+          1
+        </td>
+        <!-- Title -->
+        <td data-key="title" style="width: 15%;">
+          CSS breakpoints
+        </td>
+        <!-- Body -->
+        <td data-key="body" style="width: 40%;">
+          For the next minute or so, I want you to forget about CSS. Forget about web development.
+          Forget about digital user interfaces.
+          And as you forget these things, I want you to allow your mind to wander.
+        </td>
+        <!-- Author -->
+        <td style="width: 25%;">
+          <div style="display: flex;">
+            <img data-key="avatar" src="./assets/images/profile/avatar_female.png" class="img img-circle avatar" alt="avatar" />
+            <span style="padding: 10px 5px;">
+              <span data-key="author" style="display: block;">Time Warner</span>
+              <small data-key="date" style="color: grey;">Aug 24, 19</small>
+            </span>
+          </div>
+        </td>
+        <!-- Actions -->
+        <td style="width: 15%;">
+          <a data-link="news.view" href="">
+            <button class="btn btn-sm btn-info" style="display: inline-block">View</button>
+          </a>
+          <a data-link="news.delete" href="">
+            <button class="btn btn-sm btn-danger" style="display: inline-block">Delete</button>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+<script src="assets/js/functions/utility.js"></script>
+<script src="assets/js/functions/repo.js"></script>
+<script src="assets/js/functions/routes.js"></script>
+<script src="assets/js/app.js"></script>
+</html>
