@@ -7,7 +7,7 @@ hr {
 
 
 /* --- D O M --- */
-.d-none {
+.d-none, .d-cloak {
   display: none;
 }
 
@@ -76,6 +76,19 @@ hr {
   }
 }
 
+.w-100 {
+  width: 100% !important;
+}
+.w-75 {
+  width: 75% !important;
+}
+.w-50 {
+  width: 50% !important;
+}
+.w-25 {
+  width: 25% !important;
+}
+
 .news-header {
   margin-bottom: 0;
 }
@@ -140,6 +153,15 @@ hr {
 .form-input.medium {
   width: 100px;
 }
+.text-left {
+  text-align: left !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right !important;
+}
 
 .table-container {
   padding: 15px 0;
@@ -154,6 +176,7 @@ hr {
   border: 0;
   padding: 10px;
   vertical-align: top;
+  text-align: initial;
   text-wrap: revert;
   word-wrap: unset;
 }

@@ -16,7 +16,6 @@
   </div>
 </div>
 
-
 <!-- Content -->
 <div class="container b b-g">
   <h1 class="news-header">News</h1>
@@ -26,41 +25,33 @@
     <table class="table api-dom news-list">
       <thead>
       <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Body</th>
-        <th>Author</th>
-        <th>Action</th>
+        <th style="width: 5%;">ID</th>
+        <th style="width: 15%;">Title</th>
+        <th style="width: 40%;">Body</th>
+        <th style="width: 25%;">Author</th>
+        <th style="width: 15%;">Action</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody class="w-100 d-cloak">
       <tr class="data-row" data-item="news" data-keys="id,title,body,author,avatar">
         <!-- ID -->
-        <td data-key="id" style="width: 5%;">
-          1
-        </td>
+        <td data-key="id"></td>
         <!-- Title -->
-        <td data-key="title" style="width: 15%;">
-          CSS breakpoints
-        </td>
+        <td data-key="title"></td>
         <!-- Body -->
-        <td data-key="body" style="width: 40%;">
-          For the next minute or so, I want you to forget about CSS. Forget about web development.
-          Forget about digital user interfaces.
-          And as you forget these things, I want you to allow your mind to wander.
-        </td>
+        <td data-key="body"></td>
         <!-- Author -->
-        <td style="width: 25%;">
+        <td class="w-25">
           <div style="display: flex;">
-            <img data-key="avatar" src="./assets/images/profile/avatar_female.png" class="img img-circle avatar" alt="avatar" />
+            <img data-key="avatar" src="" class="img img-circle avatar" alt="avatar" />
             <span style="padding: 10px 5px;">
-              <span data-key="author" style="display: block;">Time Warner</span>
-              <small data-key="date" style="color: grey;">Aug 24, 19</small>
+              <span data-key="author" style="display: block;"></span>
+              <small data-key="date" style="color: grey;"></small>
             </span>
           </div>
         </td>
         <!-- Actions -->
-        <td style="width: 15%;">
+        <td>
           <a data-link="news.view" href="">
             <button class="btn btn-sm btn-info" style="display: inline-block">View</button>
           </a>
@@ -69,6 +60,11 @@
           </a>
         </td>
       </tr>
+      <!-- Shown when API data contains no items -->
+      <!-- For a table (like this one), this 'no-results' row (<tr>) can be automatically inserted here -->
+<!--      <tr class="data-row-empty">-->
+<!--        <td colspan="4" class="text-center">Amazing things!</td>-->
+<!--      </tr>-->
       </tbody>
     </table>
   </div>
@@ -77,7 +73,9 @@
 
 </body>
 <script src="assets/js/functions/utility.js"></script>
+<script src="assets/js/functions/dom.js"></script>
 <script src="assets/js/functions/repo.js"></script>
 <script src="assets/js/functions/routes.js"></script>
+<script src="assets/js/functions/xhr.js"></script>
 <script src="assets/js/app.js"></script>
 </html>

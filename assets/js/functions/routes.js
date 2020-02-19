@@ -2,27 +2,32 @@
 const Routes = (() => {
   const _obj = {
     routes: {
+      // Generic
+      "image.default": {
+        uri: '?r=image-default', params: []
+      },
+
       // News
       "news.index": {
-        uri: '/news', params: []
+        uri: '?r=index', params: []
       },
       "news.index.pages": {
-        uri: '/news?page=:page&limit=:limit', params: ['page', 'limit']
+        uri: '?page=:page&limit=:limit', params: ['page', 'limit']
       },
       "news.create": {
-        uri: '/news?r=create', params: []
+        uri: '?r=create', params: []
       },
       "news.store": {
-        uri: '/news', params: []
+        uri: '?r=index', params: []
       },
       "news.view": {
-        uri: '/news?r=view/:id', params: ['id']
+        uri: '?r=view/:id', params: ['id']
       },
       "news.update": {
-        uri: '/news?r=view/:id', params: ['id']
+        uri: '?r=view/:id', params: ['id']
       },
       "news.delete": {
-        uri: '/news?r=view/:id', params: ['id']
+        uri: '?r=view/:id', params: ['id']
       },
 
       // Images
@@ -62,14 +67,26 @@ const Routes = (() => {
       }
       return url;
     },
-    path: (routeKey, bindings) => {
-      routeKey = Util.String.trimAllSpaces(routeKey);
-      if (_obj.routes.hasOwnProperty(routeKey)) {
-        return _obj.bindValues(_obj.routes[routeKey], bindings);
+    prefixRoot(path) {
+      if (path.substr(0,1) !== '/') {
+        path = '/' + path;
       }
+      if (path.substr(0,5) !== '/news') {
+        path = '/news' + path;
+      }
+      return path;
     },
-    url: (routeKey, bindings) => {
-      return _obj.baseUrl + _obj.path(routeKey, bindings);
+    url: (path) => {
+      path = String(path);
+      return _obj.baseUrl + _obj.prefixRoot(path);
+    },
+    path: (routeName, bindings, short) => {
+      routeName = Util.String.trimAllSpaces(routeName);
+      if (!_obj.routes.hasOwnProperty(routeName)) {
+        throw new Error(`Route named ${routeName} not found`);
+      }
+      let path = _obj.bindValues(_obj.routes[routeName], bindings);
+      return short === true ? path : _obj.url(path);
     },
   };
 

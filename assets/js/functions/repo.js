@@ -1,20 +1,27 @@
 
-const GLOBAL_VAR = (function () {
-  let Repo = {
-    news: [],
-    images: [],
-    comments: [],
-  };
+const REPO = (function () {
+  // Example Repo contents below (change to suit your need)
+  // let Repo = {
+  //   news: [],
+  //   images: [],
+  //   comments: [],
+  // };
+
+  let Repo = {};
 
   const _obj = {
     set: (prop, value) => {
       switch (true) {
-        case (prop === 'data'): {
-          Repo = value;
-        } break;
-        case (!Util.Object.isEmpty(prop)): {
-          Repo[prop] = value;
-        } break;
+        case (prop === 'data'):
+          {
+            Repo = value;
+          }
+          break;
+        case (!Util.Object.isFalsy(prop)):
+          {
+            Repo[prop] = value;
+          }
+          break;
       }
     },
     append: (prop, value) => {

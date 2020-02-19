@@ -3,23 +3,23 @@
   Object: (function () {
     const _obj = {
       getOrDefault(value, defaultValue = "") {
-        return _obj.isEmpty(value) ? defaultValue : value;
+        return _obj.isFalsy(value) ? defaultValue : value;
       },
-      isEmpty(value) {
+      isFalsy(value) {
         const Empties = ['undefined', 'null', 'NaN', 'false', '0', ''];
         return !Array.isArray(value) && Empties.includes(String(value).trim());
       },
-      isObject(obj) {
-        return !_obj.isEmpty(obj) && isNaN(obj.length);
-      },
-      subset(obj, keys, newObj) {
-        if(!_obj.isObject(newObj)){
-          newObj = {};
+      isEmpty(value) {
+        if (_obj.isObject(value)) {
+          return Object.keys(value).length === 0;
         }
-        keys.forEach(key => {
-          newObj[key] = obj.hasOwnProperty(key) ? obj[key] : null;
-        });
-        return newObj;
+        if (Array.isArray(value)) {
+          return value.length === 0;
+        }
+        return true;
+      },
+      isObject(obj) {
+        return !_obj.isFalsy(obj) && isNaN(obj.length);
       },
     };
     return _obj
@@ -34,7 +34,7 @@
         return String(string).toLowerCase();
       },
       titleCase(string) {
-        if (Util.Object.isEmpty(string)) { return ''; }
+        if (Util.Object.isFalsy(string)) { return ''; }
 
         let newWords = [];
         let words = String(string).toLowerCase().split(" ");
@@ -62,11 +62,9 @@
       padString(text, char, desiredLength, side) {
         text = String(text);
         char = String(char);
-
         if (["left", "right"].indexOf(side) < 0) {
           side = "right";
         }
-
         let characters = text.split("");
         let stringLength = characters.length;
         let padLength = desiredLength - stringLength;
@@ -74,7 +72,6 @@
         for (let c = 1; c <= padLength; c++) {
           text = (side === "right") ? text + char : char + text;
         }
-
         return text;
       },
       asCurrency(number, useGrouping) {
