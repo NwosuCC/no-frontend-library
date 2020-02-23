@@ -6,35 +6,27 @@ const Spinner = (
 )();
 
 
-// External API Data Retrieval component
-const API = (() => {
-  const _obj = {
-    news: () => {
-      let newsIndex = Routes.path('news.index', null, true);
-      let newsApiEndpoint = Routes.url('index.php') + newsIndex;
-      return XHR
-        .get(newsApiEndpoint)
-        .then(data => {
-          // ToDo: revert to Storage and/or webDB
-          REPO.set('news', data);
-        });
-    },
-  };
-
-  // Exposed API Methods
-  let { news } = _obj;
-  return { news };
-})();
-
-
 // Perform pre-load actions
 const initialize = () => {
   // 1.) Sets the spinner on the XHR component. Note that the Spinner component can still be used on its own
   XHR.setSpinner('start', 'stop', Spinner);
 
-  // 2.) Sets a Default Image Url. Any broken image is replaced by this default image placeholder
+  // 2.) Render view template
+  DomLoader.renderView();
+
+  // 3.) Register route handlers
+  Routes.handlers({
+    'news.delete': (event) => {
+      if (confirm(`Delete this record?`)) {
+        // ToDo: update this to grab the actual record id
+        API.news.delete(event.target.id);
+      }
+    }
+  });
+
+  // 3.) Sets a Default Image Url. Any broken image is replaced by this default image placeholder
   return XHR
-    .get(Routes.path('image.default'))
+    .get(Routes.api('image.default'))
     .then(({imageUrl}) => {
       REPO.set('defaultImageUrl', imageUrl);
     });
@@ -52,7 +44,8 @@ window.onload = () => {
       */
       Dom.cloak(() => {
         // Fetches Ajax data and saves them in app Repo, then, loads the data into the Dom
-        return API.news()
+        return API
+          .route()
           .then(() => {
             // Iterates over Api-Dom elements (=> that expect to be populated with data) and loads in their data
             Dom
@@ -63,5 +56,4 @@ window.onload = () => {
           });
       });
     });
-
 };

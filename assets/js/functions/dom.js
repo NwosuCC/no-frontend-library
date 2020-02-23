@@ -3,22 +3,29 @@ const Dom = (() => {
   const _obj = {
     cloaked: false,
     cloakClass: 'd-cloak',
+    // Returns true if element has a [tag | id | className] that equals selector (case-insensitive)
+    is: (element, selector) => {
+      selector = Util.String.lowerCase(selector);
+      return Util.String.lowerCase(element.tagName) === selector
+        || Util.String.lowerCase(_obj.getAttribute(element, 'id')) === selector
+        || _obj.hasClass(element, selector);
+    },
     // A HTML element is deemed valid if it has the 'querySelector' function
     isValidElement: (element) => {
       let elements = Array.isArray(element) ? element : [element];
-      return elements.every(element => {
-        element = Util.Object.getOrDefault(element, {});
-        return typeof element.querySelector === 'function' || typeof element.querySelectorAll === 'function';
+      return elements.every(el => {
+        el = Util.Object.getOrDefault(el, {});
+        return typeof el.querySelector === 'function' || typeof el.querySelectorAll === 'function';
       });
     },
     // Displays a hidden DOM element
     show: (selector) => {
-      _obj.removeClass(_obj.elsOrSelector(selector), 'd-none');
+      _obj.removeClass(_obj.elsIfSelector(selector), 'd-none');
       return _obj;
     },
     // Hides a DOM element
     hide: (selector) => {
-      _obj.addClass(_obj.elsOrSelector(selector), 'd-none');
+      _obj.addClass(_obj.elsIfSelector(selector), 'd-none');
       return _obj;
     },
     // `returns true if the current element being loaded is "cloaked" (temporarily hidden)
@@ -59,9 +66,9 @@ const Dom = (() => {
       }
       return [];
     },
-    // 'elsOrSelector' can be any of: 'css selector', 'single element', 'iterable elementGroup'
+    // 'elsIfSelector' can be any of: 'css selector', 'single element', 'iterable elementGroup'
     // Always returns an iterable elementGroup, for data-type alignment with other methods that will operate on them
-    elsOrSelector: (elsOrSelector) => {
+    elsIfSelector: (elsOrSelector) => {
       if (typeof elsOrSelector === 'string') {
         return _obj.els(elsOrSelector);
       }
@@ -103,6 +110,13 @@ const Dom = (() => {
     removeClass: (element, className) => {
       return _obj.modifyClassList('remove', element, className);
     },
+    // Returns true if the element has the supplied className
+    hasClass: (element, className) => {
+      if (_obj.isIterable(element)) {
+        element = element[0];
+      }
+      return _obj.isValidElement(element) && element.classList.contains(Util.String.lowerCase(className));
+    },
     // Sets the text on an element
     setText: (element, text) => {
       if (_obj.isValidElement(element)) {
@@ -119,21 +133,36 @@ const Dom = (() => {
       let endSearch = false;
       while (!endSearch) {
         element = _obj.getParent(element);
-        endSearch = !element || element.tagName === selector.toUpperCase();
+        endSearch = !element || _obj.is(element, selector);
       }
       return element;
+    },
+    normalizeEventName: (eventName) => {
+      eventName = String(eventName);
+      if (eventName.substr(0,2) !== 'on') {
+        eventName = `on${eventName}`;
+      }
+      return eventName;
+    },
+    setEventHandler: (handlerElement, attributeName, setterCallback) => {
+      let [event, handlerName] = Dom.getAttribute(handlerElement, attributeName).split(':');
+      let eventGroup = Util.String.trimAllSpaces(event).split(',');
+      eventGroup.forEach(event => {
+        event = Dom.normalizeEventName(event);
+        handlerElement[event] = setterCallback.call(undefined, handlerName);
+      });
     }
   };
 
   // Public API
   let {
-    show, hide, cloak, isCloaked, el, els, setAttribute, getAttribute, addClass, removeClass,
-    setText, getParent, getParentsUntil
+    is, show, hide, cloak, isCloaked, el, els, setAttribute, getAttribute, addClass, removeClass,
+    setText, getParent, getParentsUntil, normalizeEventName, setEventHandler
   } = _obj;
 
   return {
-    show, hide, cloak, isCloaked, el, els, setAttribute, getAttribute, addClass, removeClass,
-    setText, getParent, getParentsUntil
+    is, show, hide, cloak, isCloaked, el, els, setAttribute, getAttribute, addClass, removeClass,
+    setText, getParent, getParentsUntil, normalizeEventName, setEventHandler
   };
 })();
 
@@ -175,7 +204,7 @@ const DomLoader = (() => {
       // ToDo: validate 'defaultImageUrl' as URL
       if (defaultImageUrl) {
         columnElement.onerror = (event) => {
-          if (event.target.tagName.toUpperCase() === 'IMG') {
+          if (Dom.is(event.target, 'IMG')) {
             event.target.src = defaultImageUrl;
           }
         };
@@ -193,7 +222,7 @@ const DomLoader = (() => {
             return;
           }
           // Sets the [src] and [onerror] attributes for IMG element OR <>textContent</> for other elements
-          if (columnElement.tagName.toUpperCase() === 'IMG') {
+          if (Dom.is(columnElement, 'IMG')) {
             _obj.addImageErrorHandler(columnElement);
             columnElement.src = repoRecord[modelProp];
           } else {
@@ -210,14 +239,29 @@ const DomLoader = (() => {
         .els('a[data-link]', rowClone)
         .forEach(aLinkElement => {
           let routeName = Dom.getAttribute(aLinkElement, 'data-link');
-          aLinkElement.href = Routes.path(routeName, repoRecord);
+          aLinkElement.href = Routes.view(routeName, repoRecord);
           aLinkElement.removeAttribute('data-key');
+        });
+      return _obj;
+    },
+    // Iterates through the elements having [data-handler] attribute and updates their specified event
+    updateHandlers: (rowClone) => {
+      Dom
+        .els('[data-handler]', rowClone)
+        .forEach(handlerElement => {
+          Dom.setEventHandler(
+            handlerElement, 'data-handler', (routeName) => Routes.handler(routeName)
+          );
+          if (Dom.is(handlerElement, 'a')) {
+            handlerElement.removeAttribute('href');
+          }
+          handlerElement.removeAttribute('data-handler');
         });
       return _obj;
     },
     // Returns true if the current row element is a table row (table > tbody > tr)
     rowElementIsTR: () => {
-      return _obj.rowElement.tagName.toUpperCase() === 'TR';
+      return Dom.is(_obj.rowElement, 'TR');
     },
     // Customises and sets an 'empty-row' element when returned API data contains no items
     // ToDo: expose API to customise the 'text', 'css', 'colspan', etc via {options}
@@ -274,6 +318,7 @@ const DomLoader = (() => {
           _obj
             .updateColumnsData(repoItem, dataRowClone)
             .updateLinks(repoItem, dataRowClone)
+            .updateHandlers(dataRowClone)
             .appendRow(dataRowClone);
         });
       }
@@ -290,8 +335,27 @@ const DomLoader = (() => {
       Dom.hide(_obj.rowElement);
       _obj.isLoading = false;
     },
+    getViewPath: () => {
+      let viewKey = Routes.baseSegment();
+      return `views/news-${viewKey}.html`;
+    },
+    renderView: (viewPath) => {
+      if (typeof viewPath === 'undefined') {
+        viewPath = _obj.getViewPath();
+      }
+      fetch(viewPath)
+        .then(response => response.text())
+        .then(data => {
+          Dom.el('[data-app]').innerHTML = data;
+        })
+        .catch(error => {
+          // if () {
+          //   console.log('view error: ', error);
+          // }
+        });
+    },
   };
 
-  let { load, isLoaded } = _obj;
-  return { load, isLoaded };
+  let { renderView, load, isLoaded } = _obj;
+  return { renderView, load, isLoaded };
 })();

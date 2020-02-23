@@ -1,5 +1,4 @@
-
- const Util = (() => ({
+const Util = (() => ({
   Object: (function () {
     const _obj = {
       getOrDefault(value, defaultValue = "") {
@@ -7,7 +6,11 @@
       },
       isFalsy(value) {
         const Empties = ['undefined', 'null', 'NaN', 'false', '0', ''];
-        return !Array.isArray(value) && Empties.includes(String(value).trim());
+        // NOTE: String([]) === '', String(<a href=""></a>) === ""
+        return value === null || (typeof value !== 'object' && Empties.includes(String(value).trim()));
+      },
+      isObject(obj) {
+        return !_obj.isFalsy(obj) && isNaN(obj.length);
       },
       isEmpty(value) {
         if (_obj.isObject(value)) {
@@ -18,13 +21,10 @@
         }
         return true;
       },
-      isObject(obj) {
-        return !_obj.isFalsy(obj) && isNaN(obj.length);
-      },
     };
     return _obj
   })(),
-   
+
   String: (function () {
     const _obj = {
       upperCase(string) {
@@ -34,16 +34,15 @@
         return String(string).toLowerCase();
       },
       titleCase(string) {
-        if (Util.Object.isFalsy(string)) { return ''; }
-
+        if (Util.Object.isFalsy(string)) {
+          return '';
+        }
         let newWords = [];
-        let words = String(string).toLowerCase().split(" ");
-
+        let words = _obj.String.lowerCase(string).split(" ");
         words.forEach((word, i) => {
-          let characters = _obj.trimMultipleSpaces(word).toLowerCase().split("");
-          newWords[i] = characters.shift().toUpperCase() + characters.join("");
+          let characters = _obj.lowerCase(_obj.trimMultipleSpaces(word)).split("");
+          newWords[i] = _obj.upperCase(characters.shift())+ characters.join("");
         });
-
         return newWords.join(" ");
       },
       trimMultipleChars(text, character) {
@@ -77,7 +76,10 @@
       asCurrency(number, useGrouping) {
         useGrouping = useGrouping !== false;
         number = _obj.asNumber(number);
-        return number.toLocaleString(undefined, {useGrouping, minimumFractionDigits: 2, maximumFractionDigits: 2});
+        return number.toLocaleString(
+          undefined,
+          {useGrouping, minimumFractionDigits: 2, maximumFractionDigits: 2}
+        );
       },
       asNumber(number) {
         number = Util.Object.getOrDefault(number);
@@ -93,5 +95,5 @@
     };
     return _obj;
   })(),
-   
+
 }))();

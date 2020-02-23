@@ -12,7 +12,7 @@ switch ((string)$url[0]) {
         {
             // --test: mimics loading time on browser
             sleep(1);
-            $data = newsIndex();
+            $data = newsIndex((int)$_GET['page'], (int)$_GET['limit']);
         }
         break;
     case 'view' :
@@ -32,14 +32,20 @@ switch ((string)$url[0]) {
 }
 
 if ($data === null) {
-    $result = ['error' => 'Bad request'];
-    http_response_code(400);
-    die(json_encode($result));
+    if (!empty($_POST)) {
+        $responseCode = 400;
+        $data = ['error' => 'Bad request'];
+    } else {
+        $responseCode = 404;
+        $data = ['error' => 'Not Found'];
+    }
+} else {
+    $responseCode = 200;
 }
 
 // --test: mimics API response that contains no data
 //$data = [];
 
 // Ajax Response Data
-http_response_code(200);
-die(json_encode(compact('data')));
+http_response_code($responseCode);
+die(json_encode(['data' => $data]));

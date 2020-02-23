@@ -12,5 +12,5 @@ if (isset($_GET['r'])) {
     include_once('mock-api/route.php');
 } else {
     // Go home
-    header('location: index.html');
+    header('location: ./index.html?r=index');
 }

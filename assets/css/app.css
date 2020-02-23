@@ -1,202 +1,353 @@
 html, body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Catamaran", sans-serif; line-height: 1.42;
+    font-family: "Catamaran", sans-serif;
+    line-height: 1.42;
 }
+
 hr {
-  border: solid 1px lightgrey;
+    border: solid 1px lightgrey;
+}
+
+a:link, a:hover, a:visited {
+    text-decoration: none;
+    cursor: pointer;
+    color: dodgerblue;
+}
+
+ul > li {
+    cursor: default;
+}
+
+ul.list-unstyled > li {
+    list-style: none;
+}
+
+ul.horizontal {
+    padding: 0;
+    border: solid 1px lightgrey;
+    display: inline-block;
+}
+
+ul.horizontal > li {
+    display: table-cell;
+    border-right: solid 1px lightgrey;
+    margin: 0;
+    padding: 5px 15px;
+}
+
+ul.horizontal > li:last-child {
+    border-right: 0;
 }
 
 
 /* --- D O M --- */
 .d-none, .d-cloak {
-  display: none;
+    display: none;
 }
 
+
 /* --- B O R D E R --- */
-.b { border: solid 1px; }
-.b-s { border-color: darkgreen; }
-.b-i { border-color: dodgerblue; }
-.b-w { border-color: orange; }
-.b-d { border-color: darkred; }
-.b-p { border-color: navy; }
-.b-g { border-color: darkgrey; }
+.b {
+    border: solid 1px;
+}
+
+.b-s {
+    border-color: darkgreen;
+}
+
+.b-i {
+    border-color: dodgerblue;
+}
+
+.b-w {
+    border-color: orange;
+}
+
+.b-d {
+    border-color: darkred;
+}
+
+.b-p {
+    border-color: navy;
+}
+
+.b-g {
+    border-color: darkgrey;
+}
+
 
 /* --- S P I N N E R --- */
 .overlay {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(114,119,129,0.35);
-  position: fixed; z-index: 100; top: 0; left:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(114, 119, 129, 0.35);
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
 }
+
 .overlay .loading {
-  min-width: 150px;
-  width: 200px;
-  height: 46px;
-  border: solid 1px #dedede;
-  border-radius: 5px;
-  background-color: #f3f3f3;
-  position: fixed; z-index: 110; top: calc(50vh - 23px); left: calc(50vw - 100px);
+    min-width: 150px;
+    width: 200px;
+    height: 46px;
+    border: solid 1px #dedede;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    position: fixed;
+    z-index: 110;
+    top: calc(50vh - 23px);
+    left: calc(50vw - 100px);
 }
+
 .overlay .spinner-text {
-  font-weight: 600;
+    font-weight: 600;
 }
+
 .overlay .spinner {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin: 5px 20px;
-  vertical-align: middle;
-  border: solid 3px #f3f3f3;
-  border-top: solid 3px #3498db;
-  border-radius: 50%;
-  animation: spin 0.6s;
-  animation-direction: normal;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 5px 20px;
+    vertical-align: middle;
+    border: solid 3px #f3f3f3;
+    border-top: solid 3px #3498db;
+    border-radius: 50%;
+    animation: spin 0.6s;
+    animation-direction: normal;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
+
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* --- P A G I N A T I O N --- */
+/* - Container - */
+.table-pagination {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 10px;
+    color: #6a6a6a;
+}
+
+.table-pagination .pagination-meta {
+    display: flex;
+    justify-content: left;
+}
+
+.table-pagination .pagination-meta .pagination-limit,
+.table-pagination .pagination-meta .pagination-summary {
+    margin-right: 15px;
+}
+
+.table-pagination .pagination-meta .pagination-summary .pg-count {
+    font-family: "Source Code Pro", "Courier New", Helvetica, SansSerif, serif;
+    font-size: smaller;
+    font-weight: bold;
+    color: black;
+}
+
+/* - Pagination - */
+.pagination {
+    display: inline-block;
+    padding: 0;
+    color: #6a6a6a;
+}
+
+.pagination > .pagination-item {
+    display: table-cell;
+    border: solid 1px lightgrey;
+    border-right: solid 0;
+    margin: 0;
+    padding: 0 15px;
+    cursor: default;
+}
+
+.pagination > .pagination-item:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.pagination > .pagination-item:last-child {
+    border-right: solid 1px lightgrey;
+    border-radius: 0 5px 5px 0;
+}
+
+.pagination > .pagination-item.active {
+    border: solid 1px royalblue;
+    background-color: royalblue;
+    color: white;
+}
+
+.pagination > .pagination-item.disabled {
+    pointer-events: none;
+    color: lightgrey;
 }
 
 
 /* --- L A Y O U T --- */
 .container {
-  width: auto;
-  margin: 30px;
-  padding: 15px;
+    width: auto;
+    margin: 30px;
+    padding: 15px;
 }
+
 @media screen and (max-width: 575px) {
-  .container {
-    margin: 10px;
-    padding: 5px;
-  }
+    .container {
+        margin: 10px;
+        padding: 5px;
+    }
 }
 
 .w-100 {
-  width: 100% !important;
+    width: 100% !important;
 }
+
 .w-75 {
-  width: 75% !important;
+    width: 75% !important;
 }
+
 .w-50 {
-  width: 50% !important;
+    width: 50% !important;
 }
+
 .w-25 {
-  width: 25% !important;
+    width: 25% !important;
 }
 
 .news-header {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .news-list img.avatar {
-  width: 50px;
-  height: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 
-/* --- I M A G  E --- */
+/* --- I M A G E --- */
 .img-container {
-  margin: 10px;
+    margin: 10px;
 }
+
 .img {
 
 }
+
 .img.img-circle {
-  border: solid 2px #3498db;
-  border-radius: 50%;
+    border: solid 2px #3498db;
+    border-radius: 50%;
 }
 
 
 /* --- B U T T O N   --- */
 .btn {
-  padding: 5% 30%;
-  border: 0;
+    padding: 5% 30%;
+    border: 0;
 }
+
 .btn.btn-sm {
-  padding: 3px 15px;
-  border-radius: 2px;
+    padding: 3px 15px;
+    border-radius: 2px;
 }
+
 .btn.btn-success {
-  background-color: forestgreen;
-  color: white;
+    background-color: forestgreen;
+    color: white;
 }
+
 .btn.btn-info {
-  background-color: dodgerblue;
-  color: white;
+    background-color: dodgerblue;
+    color: white;
 }
+
 .btn.btn-warning {
-  background-color: orange;
-  color: white;
+    background-color: orange;
+    color: white;
 }
+
 .btn.btn-danger {
-  background-color: indianred;
-  color: white;
+    background-color: indianred;
+    color: white;
 }
 
 
 /* --- T E X T --- */
 .font-weight-bold {
-  font-weight: 600 !important;
+    font-weight: 600 !important;
 }
+
 .font-weight-mid {
-  font-weight: 500 !important;
+    font-weight: 500 !important;
 }
 
 .form-input.square {
-  height: 30px;
-  width: 100px;
+    height: 30px;
+    width: 100px;
 }
+
 .form-input.medium {
-  width: 100px;
+    width: 100px;
 }
+
 .text-left {
-  text-align: left !important;
+    text-align: left !important;
 }
+
 .text-center {
-  text-align: center !important;
+    text-align: center !important;
 }
+
 .text-right {
-  text-align: right !important;
+    text-align: right !important;
 }
 
 .table-container {
-  padding: 15px 0;
-  overflow-x: scroll;
+    padding: 15px 0;
+    overflow-x: scroll;
 }
+
 .table {
-  border-left: solid 1px lightgrey;
-  border-top: solid 1px lightgrey;
-  border-spacing: 0;
+    border-left: solid 1px lightgrey;
+    border-top: solid 1px lightgrey;
+    border-spacing: 0;
 }
+
 .table th, .table td {
-  border: 0;
-  padding: 10px;
-  vertical-align: top;
-  text-align: initial;
-  text-wrap: revert;
-  word-wrap: unset;
+    border: 0;
+    padding: 10px;
+    vertical-align: top;
+    text-align: initial;
+    text-wrap: revert;
+    word-wrap: unset;
 }
+
 .table thead tr th, .table tbody tr td {
-  border-right: solid 1px lightgrey;
-  border-bottom: solid 1px lightgrey;
+    border-right: solid 1px lightgrey;
+    border-bottom: solid 1px lightgrey;
 }
-.table.no-border, .table.no-border th , .table.no-border td {
-  border-width: 0;
+
+.table.no-border, .table.no-border th, .table.no-border td {
+    border-width: 0;
 }
+
 .table-borders {
-  border-left: solid 1px grey;
-  border-top: solid 1px grey;
+    border-left: solid 1px grey;
+    border-top: solid 1px grey;
 }
+
 .table-borders th, .table-borders td {
-  border-right: solid 1px grey;
-  border-bottom: solid 1px grey;
+    border-right: solid 1px grey;
+    border-bottom: solid 1px grey;
 }
 
 .match-table th:nth-child(8), .match-table td:nth-child(8) {
-  border-left: double 10px
+    border-left: double 10px
 }
 
