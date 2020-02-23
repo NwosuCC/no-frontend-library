@@ -44,6 +44,13 @@ ul.horizontal > li:last-child {
     display: none;
 }
 
+.hr-line {
+    display: block;
+    padding: 0;
+    margin: 5px 0;
+    border: 0;
+    border-bottom: solid 1px lightgrey;
+}
 
 /* --- B O R D E R --- */
 .b {
