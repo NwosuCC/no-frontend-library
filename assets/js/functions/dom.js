@@ -1,4 +1,3 @@
-
 const Dom = (() => {
   const _obj = {
     cloaked: false,
@@ -6,9 +5,24 @@ const Dom = (() => {
     // Returns true if element has a [tag | id | className] that equals selector (case-insensitive)
     is: (element, selector) => {
       selector = Util.String.lowerCase(selector);
-      return Util.String.lowerCase(element.tagName) === selector
-        || Util.String.lowerCase(_obj.getAttribute(element, 'id')) === selector
-        || _obj.hasClass(element, selector);
+      // Check if element is window.document and matches selector
+      if (element.isSameNode(document)) {
+        return selector === 'document';
+      }
+      // Check if element tagName matches selector
+      if (Util.String.lowerCase(element.tagName) === selector) {
+        return true
+      }
+      // Check if element id matches selector
+      if (selector.substr(0, 1) === '#') {
+        let elementId = Util.String.lowerCase(_obj.getAttribute(element, 'id'));
+        return elementId === selector.substr(1);
+      }
+      // Check if element has any className that matches selector
+      if (selector.substr(0, 1) === '.') {
+        return _obj.hasClass(element, selector.substr(1));
+      }
+      return false;
     },
     // A HTML element is deemed valid if it has the 'querySelector' function
     isValidElement: (element) => {
@@ -139,7 +153,7 @@ const Dom = (() => {
     },
     normalizeEventName: (eventName) => {
       eventName = String(eventName);
-      if (eventName.substr(0,2) !== 'on') {
+      if (eventName.substr(0, 2) !== 'on') {
         eventName = `on${eventName}`;
       }
       return eventName;
@@ -169,7 +183,12 @@ const Dom = (() => {
 
 const DomLoader = (() => {
   const _obj = {
+    attrs: [
+      'data-link', 'data-handler',
+    ],
     element: null,
+    rowElements: [],
+    rowEmptyElements: [],
     rowElement: null,
     rowEmptyElement: null,
     repoKey: null,
@@ -179,13 +198,13 @@ const DomLoader = (() => {
     // Returns true if an object is fully loaded into the DOM
     isLoaded: () => !_obj.isLoading,
     // Sets the element to load into the DOM
-    init: (element) => {
-      _obj.element = element;
+    init: (apiDomElement) => {
+      _obj.element = apiDomElement;
       return _obj;
     },
     extractRowData: () => {
       // Sets the row element that represents one row of data
-      _obj.rowElement = Dom.el('.data-row', _obj.element);
+      // _obj.rowElement = Dom.el('.data-row', _obj.element);
 
       // Sets (then, hides) the 'empty' row element displayed if returned data contains no items
       _obj.rowEmptyElement = Dom.el('.data-row-empty', _obj.element);
@@ -234,28 +253,35 @@ const DomLoader = (() => {
       return _obj;
     },
     // Iterates through the row links (<a> elements having [data-link] attribute) and updates their [href]
+    updateLink: (aLinkElement, repoRecord) => {
+      let routeName = Dom.getAttribute(aLinkElement, 'data-link');
+      aLinkElement.href = Routes.view(routeName, repoRecord);
+      aLinkElement.removeAttribute('data-key');
+      return _obj;
+    },
     updateLinks: (repoRecord, rowClone) => {
       Dom
         .els('a[data-link]', rowClone)
         .forEach(aLinkElement => {
-          let routeName = Dom.getAttribute(aLinkElement, 'data-link');
-          aLinkElement.href = Routes.view(routeName, repoRecord);
-          aLinkElement.removeAttribute('data-key');
+          _obj.updateLink(aLinkElement, repoRecord);
         });
       return _obj;
     },
     // Iterates through the elements having [data-handler] attribute and updates their specified event
+    updateHandler: (handlerElement) => {
+      Dom.setEventHandler(
+        handlerElement, 'data-handler', (routeName) => Routes.handler(routeName)
+      );
+      if (Dom.is(handlerElement, 'a')) {
+        handlerElement.removeAttribute('href');
+      }
+      handlerElement.removeAttribute('data-handler');
+    },
     updateHandlers: (rowClone) => {
       Dom
         .els('[data-handler]', rowClone)
         .forEach(handlerElement => {
-          Dom.setEventHandler(
-            handlerElement, 'data-handler', (routeName) => Routes.handler(routeName)
-          );
-          if (Dom.is(handlerElement, 'a')) {
-            handlerElement.removeAttribute('href');
-          }
-          handlerElement.removeAttribute('data-handler');
+          _obj.updateHandler(handlerElement);
         });
       return _obj;
     },
@@ -275,7 +301,7 @@ const DomLoader = (() => {
         Dom.addClass(td, 'text-center').addClass(td, 'text-center');
 
         // Sets the text and adds the 'td' element to the DOM
-        Dom.setText(td,'No results found');
+        Dom.setText(td, 'No results found');
         rowEmptyElement.innerHTML = '';
         rowEmptyElement.appendChild(td);
       }
@@ -287,9 +313,9 @@ const DomLoader = (() => {
       rowClone.removeAttribute('data-keys');
 
       // Removes default classes that make an element hidden, so the new element can be displayed
-      Dom.removeClass(rowClone,'data-row');
+      Dom.removeClass(rowClone, 'data-row');
       if (Dom.isCloaked()) {
-        Dom.removeClass(rowClone,'d-cloak').addClass(rowClone,'d-cloaked');
+        Dom.removeClass(rowClone, 'd-cloak').addClass(rowClone, 'd-cloaked');
       }
 
       // Appends new row element to the parent
@@ -324,16 +350,40 @@ const DomLoader = (() => {
       }
       return _obj;
     },
+    loadRowElements: async () => {
+      await Dom.els('.data-row', _obj.element).forEach(el => {
+        _obj.rowElement = el;
+        _obj.extractRowData().interpolate();
+        Dom.hide(_obj.rowElement);
+        _obj.rowElement = null;
+      });
+      return _obj;
+    },
+    loadStandaloneElements: async () => {
+      await _obj.attrs.forEach(attr => {
+        Dom.els(`[${attr}]`, _obj.element).forEach(el => {
+          if (Dom.getParentsUntil(el, '.d-cloaked') || Dom.getParentsUntil(el, '.data-row')) {
+            return;
+          }
+          if (attr === 'data-link') {
+            _obj.updateLink(el);
+          } else if (attr === 'data-handler') {
+            _obj.updateHandler(el);
+          }
+        });
+      });
+      return _obj;
+    },
     // Loads the retrieved API data into the DOM
-    load: (element) => {
+    load: (apiDomElement) => {
       _obj.isLoading = true;
-      _obj
-        .init(element)
-        .extractRowData()
-        .interpolate();
+      _obj.init(apiDomElement);
 
-      Dom.hide(_obj.rowElement);
-      _obj.isLoading = false;
+      _obj.loadRowElements().then(obj => {
+        obj.loadStandaloneElements().then(obj => {
+          obj.isLoading = false;
+        });
+      });
     },
     getViewPath: () => {
       let viewKey = Routes.baseSegment();
@@ -356,6 +406,6 @@ const DomLoader = (() => {
     },
   };
 
-  let { renderView, load, isLoaded } = _obj;
-  return { renderView, load, isLoaded };
+  let {renderView, load, isLoaded} = _obj;
+  return {renderView, load, isLoaded};
 })();

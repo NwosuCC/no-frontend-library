@@ -2,12 +2,20 @@
 <h1 class="news-header">News</h1>
 <hr class="hr-line" />
 
-<div class="table-container">
+<div class="table-container api-dom">
+  <!-- "Create" button -->
+  <div class="table-cta table-cta-create">
+    <a data-link="news.create" href>
+      <button class="btn btn-warning btn-sm">Add News</button>
+    </a>
+  </div>
+
+  <!-- Auto Pagination -->
   <div class="table-pagination" data-pagination="news">
     <!-- pagination auto-inserted here -->
   </div>
 
-  <table class="table api-dom news-list">
+  <table class="table news-list">
     <thead>
     <tr>
       <th style="width: 5%;">ID</th>
@@ -38,10 +46,10 @@
       <!-- Actions -->
       <td>
         <a data-link="news.view" href="">
-          <button class="btn btn-sm btn-info" style="display: inline-block">View</button>
+          <button class="btn btn-xs btn-info" style="display: inline-block">View</button>
         </a>
         <a data-handler="click:news.delete" href class="text-center b-d">
-          <button class="btn btn-sm btn-danger" style="display: inline-block">Delete</button>
+          <button class="btn btn-xs btn-danger" style="display: inline-block">Delete</button>
         </a>
       </td>
     </tr>

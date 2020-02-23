@@ -140,7 +140,7 @@ ul.horizontal > li:last-child {
 .table-pagination {
     display: flex;
     justify-content: space-between;
-    margin: 0 0 10px;
+    margin: 10px 0;
     color: #6a6a6a;
 }
 
@@ -190,6 +190,10 @@ ul.horizontal > li:last-child {
     border: solid 1px royalblue;
     background-color: royalblue;
     color: white;
+}
+
+.pagination > .pagination-item:active {
+    background-color: #cce0ff;
 }
 
 .pagination > .pagination-item.disabled {
@@ -255,33 +259,59 @@ ul.horizontal > li:last-child {
 
 /* --- B U T T O N   --- */
 .btn {
+    outline: none;
     padding: 5% 30%;
     border: 0;
+    color: white;
 }
 
-.btn.btn-sm {
+.btn.btn-xs, .btn.btn-xs:active {
     padding: 3px 15px;
     border-radius: 2px;
 }
 
+.btn.btn-sm, .btn.btn-sm:active {
+    padding: 6px 18px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.btn.btn-md, .btn.btn-md:active {
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
 .btn.btn-success {
     background-color: forestgreen;
-    color: white;
+}
+
+.btn.btn-success:active {
+    outline: solid 1px darkgreen;
 }
 
 .btn.btn-info {
     background-color: dodgerblue;
-    color: white;
+}
+
+.btn.btn-info:active {
+    outline: solid 1px lightskyblue;
 }
 
 .btn.btn-warning {
     background-color: orange;
-    color: white;
+}
+
+.btn.btn-warning:active {
+    outline: solid 1px darkorange;
 }
 
 .btn.btn-danger {
     background-color: indianred;
-    color: white;
+}
+
+.btn.btn-danger:active {
+    outline: solid 1px darkred;
 }
 
 
@@ -316,8 +346,14 @@ ul.horizontal > li:last-child {
 }
 
 .table-container {
-    padding: 15px 0;
+    padding: 0;
     overflow-x: scroll;
+}
+
+.table-container .table-cta {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 0;
 }
 
 .table {
