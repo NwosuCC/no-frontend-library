@@ -134,7 +134,9 @@ function upload($file): ?string
         if (IMG_BASE64 === true) {
             $fileData = base64_encode(file_get_contents($file['tmp_name']));
         } else {
-            $filePath = 'storage/u-pics/' . substr(md5($file['name']), 3, 13) . '.' . $ext;
+            // ToDo: create a files-clean-up job for orphaned files
+            $fileName = substr(md5($file['name'].microtime()), 3, 13) . '.' . $ext;
+            $filePath = 'storage/u-pics/' . $fileName;
             $fileAbsPath = APP_ROOT . $filePath;
             try {
                 move_uploaded_file($file['tmp_name'], $fileAbsPath);
