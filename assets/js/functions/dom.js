@@ -235,7 +235,6 @@ const DomLoader = (() => {
         .els('[data-key]', rowClone)
         .forEach(columnElement => {
           let modelProp = Dom.getAttribute(columnElement, 'data-key');
-
           // Skips the current iteration if property [modelProp] is not in the list of allowed properties
           if (_obj.repoModelProps.indexOf(modelProp) < 0) {
             return;
@@ -243,7 +242,9 @@ const DomLoader = (() => {
           // Sets the [src] and [onerror] attributes for IMG element OR <>textContent</> for other elements
           if (Dom.is(columnElement, 'IMG')) {
             _obj.addImageErrorHandler(columnElement);
-            columnElement.src = repoRecord[modelProp];
+            let srcValue = repoRecord[modelProp];
+            let isURL = srcValue.substr(0, 4) === 'http';
+            columnElement.src = isURL ? repoRecord[modelProp] : `data:image/png;base64,${repoRecord[modelProp]}`;
           } else {
             columnElement.textContent = repoRecord[modelProp];
           }

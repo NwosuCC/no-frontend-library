@@ -38,6 +38,17 @@ ul.horizontal > li:last-child {
     border-right: 0;
 }
 
+label {
+    font-weight: 600;
+}
+label:not(.label-inline) {
+    display: block;
+}
+
+textarea {
+    resize: vertical;
+}
+
 
 /* --- D O M --- */
 .d-none, .d-cloak {
@@ -260,14 +271,17 @@ ul.horizontal > li:last-child {
 /* --- B U T T O N   --- */
 .btn {
     outline: none;
-    padding: 5% 30%;
     border: 0;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 14px;
     color: white;
 }
 
 .btn.btn-xs, .btn.btn-xs:active {
-    padding: 3px 15px;
-    border-radius: 2px;
+    padding: 3px 12px;
+    border-radius: 1px;
+    font-size: 11px;
 }
 
 .btn.btn-sm, .btn.btn-sm:active {
@@ -288,6 +302,14 @@ ul.horizontal > li:last-child {
 
 .btn.btn-success:active {
     outline: solid 1px darkgreen;
+}
+
+.btn.btn-primary {
+    background-color: midnightblue;
+}
+
+.btn.btn-primary:active {
+    outline: solid 1px royalblue;
 }
 
 .btn.btn-info {
@@ -345,6 +367,36 @@ ul.horizontal > li:last-child {
     text-align: right !important;
 }
 
+
+/* --- F O R M --- */
+.form-container {
+
+}
+.form-container .row {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 -15px;
+    padding: 5px 0;
+}
+.form-container .row .col {
+    width: 90vw;
+    margin: 5px 15px;
+}
+.form-control {
+    width: calc(100% - 30px);
+    border: solid 1px lightgrey;
+    border-radius: 3px;
+    padding: 5px 15px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.form-control:focus {
+    outline: none;
+    border: solid 1px lightsteelblue;
+}
+
+
+/* --- T A B L E --- */
 .table-container {
     padding: 0;
     overflow-x: scroll;

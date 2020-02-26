@@ -29,10 +29,37 @@ const XHR = (() => {
     spinner: Spinner,
     get: (routeString) => {
       _obj.spinner.toggleState(true);
-      return _obj.handleResponse(fetch(routeString));
+      return _obj.handleResponse(
+        fetch(routeString)
+      );
+    },
+    post: (routeString, formData, isJson) => {
+      _obj.spinner.toggleState(true);
+      let payload = {
+        method: 'POST', body: formData
+      };
+      if (isJson === true) {
+        payload.headers = {
+          'Content-Type': 'application/json'
+        };
+        payload.body = JSON.stringify(payload.body);
+      }
+      return _obj.handleResponse(
+        fetch(routeString, payload)
+      );
+    },
+    checkStatus: (response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      } else {
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
     },
     handleResponse: (fetchPromise) => {
       return fetchPromise
+        .then(_obj.checkStatus)
         .then(response => {
           _obj.spinner.toggleState(false);
           return response.json();
@@ -42,7 +69,7 @@ const XHR = (() => {
         // Or catch any errors
         .catch(error => {
           _obj.spinner.toggleState(false);
-          console.log('error: ', error);
+          console.log('Request error', error);
         });
     },
   };
@@ -50,6 +77,7 @@ const XHR = (() => {
   // Exposed API
   return {
     get: _obj.get,
+    post: _obj.post,
     setSpinner: _obj.spinner.set
   };
 })();

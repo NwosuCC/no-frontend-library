@@ -16,10 +16,18 @@ const initialize = () => {
 
   // 3.) Register route handlers
   Routes.handlers({
+    'news.store': (event) => {
+      event.preventDefault();
+      let formInput = {
+        texts: ['title', 'body', 'author'], files: ['avatar'],
+      };
+      API.post('news.store', Form.extract(event.target.id, formInput));
+    },
     'news.delete': (event) => {
+      event.preventDefault();
       if (confirm(`Delete this record?`)) {
         // ToDo: update this to grab the actual record id
-        API.news.delete(event.target.id);
+        API.post('news.delete', {id: event.target.id});
       }
     }
   });
@@ -45,7 +53,7 @@ window.onload = () => {
       Dom.cloak(() => {
         // Fetches Ajax data and saves them in app Repo, then, loads the data into the Dom
         return API
-          .route()
+          .get()
           .then(() => {
             // Iterates over Api-Dom elements (=> that expect to be populated with data) and loads in their data
             Dom

@@ -2,3 +2,36 @@
 <h1 class="news-header">News - Create</h1>
 <hr class="hr-line" />
 
+<div class="form-container api-dom">
+  <form id="form-news" method="post" data-handler="submit:news.store" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col">
+        <label for="title">Title</label>
+        <input id="title" class="form-control" type="text">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="body">Body</label>
+        <textarea id="body" class="form-control" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="author">Author</label>
+        <input id="author" class="form-control" type="text">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="avatar">Avatar</label>
+        <input id="avatar" class="form-control" type="file" accept="image/jpeg,image/png">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-primary">Create News</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,10 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/**
- * @var string $baseUrl
- */
-
 $url = explode('/', urldecode($_GET['r']));
 
 switch ((string)$url[0]) {
@@ -12,7 +8,11 @@ switch ((string)$url[0]) {
         {
             // --test: mimics loading time on browser
             sleep(1);
-            $data = newsIndex((int)$_GET['page'], (int)$_GET['limit']);
+            if (!empty($_POST)) {
+                $data = newsStore($_POST, $_FILES);
+            } else {
+                $data = newsIndex((int)$_GET['page'], (int)$_GET['limit']);
+            }
         }
         break;
     case 'view' :
@@ -20,6 +20,13 @@ switch ((string)$url[0]) {
             // --test: mimics loading time on browser
             sleep(1);
             $data = newsView((int)$url[1]);
+        }
+        break;
+    case 'create' :
+        {
+            // --test: mimics loading time on browser
+            sleep(1);
+            $data = newsCreate();
         }
         break;
     case 'image-default' :

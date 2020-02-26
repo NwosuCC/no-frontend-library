@@ -56,8 +56,6 @@ const Routes = (() => {
       },
     },
 
-    isView: false,
-
     baseUrl: () => window.location.href.split('/news', 1).shift(),
 
     string: (route) => String(route).replace('?', ''),
@@ -100,7 +98,7 @@ const Routes = (() => {
 
     bindValues: (route, bindings) => {
       let url = (() => route.uri)();
-      if (bindings && typeof bindings === 'object') {
+      if (Util.Object.isObject(bindings)) {
         route.params.forEach(param => {
           if (bindings.hasOwnProperty(param)) {
             url = url.replace(new RegExp(`:${param}`, 'gi'), bindings[param]);
@@ -141,6 +139,7 @@ const Routes = (() => {
       let realPath = _obj.realPath(routeName, bindings, short);
       return short === true ? realPath : _obj.url(realPath);
     },
+
     view: (routeName, bindings) => _obj.realPath(routeName, bindings),
 
     // Returns a new route URL built from the supplied pagination parameters
