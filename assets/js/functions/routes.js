@@ -9,25 +9,22 @@ const Routes = (() => {
 
       // News
       "news.index": {
-        uri: '?r=index', params: [], view: 'news-index'
-      },
-      "news.index.pages": {
         uri: '?r=index&page=:page&limit=:limit', params: ['page', 'limit'], view: 'news-index'
       },
       "news.create": {
         uri: '?r=create', params: [], view: 'news-create'
       },
       "news.store": {
-        uri: '?r=index', params: []
+        uri: '?r=store', params: []
       },
       "news.view": {
         uri: '?r=view/:id', params: ['id'], view: 'news-view'
       },
       "news.update": {
-        uri: '?r=view/:id', params: ['id']
+        uri: '?r=update/:id', params: ['id']
       },
       "news.delete": {
-        uri: '?r=view/:id', params: ['id']
+        uri: '?r=delete/:id', params: ['id']
       },
 
       // Images
@@ -68,12 +65,14 @@ const Routes = (() => {
       });
       return partsObj;
     },
+
     routeOrCurrent: (route) => {
       if (typeof route === 'undefined') {
         route = window.location.search;
       }
       return _obj.parts(route);
     },
+
     path: (route) => _obj.routeOrCurrent(route)['r'],
 
     query: (route) => {
@@ -81,6 +80,7 @@ const Routes = (() => {
       delete parts['r'];
       return parts;
     },
+
     buildRoute: (query) => {
       let newRoute = '', currentQuery = _obj.query();
       for (let key in query) {
@@ -92,6 +92,7 @@ const Routes = (() => {
       }
       return '?r=' + _obj.path() + newRoute;
     },
+
     segments: (route) => _obj.path(route).split('/'),
 
     baseSegment: (route) => _obj.segments(route).shift(),
@@ -107,6 +108,7 @@ const Routes = (() => {
       }
       return url;
     },
+
     normalizeRoute: (routeName) => {
       routeName = Util.String.trimAllSpaces(routeName);
       if (!_obj.routes.hasOwnProperty(routeName)) {
@@ -114,10 +116,12 @@ const Routes = (() => {
       }
       return routeName;
     },
+
     realPath: (routeName, bindings) => {
       routeName = _obj.normalizeRoute(routeName);
       return _obj.bindValues(_obj.routes[routeName], bindings);
     },
+
     prefixRoot(path) {
       path = String(path);
       if (path.substr(0,1) !== '/') {
@@ -135,6 +139,7 @@ const Routes = (() => {
     go: (path) => {
       window.location.href = _obj.url(path).replace('/news/', '/news/index.html');
     },
+
     api: (routeName, bindings, short) => {
       let realPath = _obj.realPath(routeName, bindings, short);
       return short === true ? realPath : _obj.url(realPath);
@@ -155,6 +160,7 @@ const Routes = (() => {
       }
       return handler;
     },
+
     // Sets handlers in bulk
     handlers: (handlers) => {
       for (let routeName in handlers) {

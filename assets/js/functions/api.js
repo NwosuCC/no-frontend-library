@@ -8,7 +8,8 @@ const API = (() => {
       return _obj.news[main].call(undefined, sub);
     },
     post: (routeName, formData, isJson) => {
-      let [main, ...sub] = Routes.segments(Routes.api(routeName, {}, true));
+      let [main, ...sub] = Routes.segments(Routes.api(routeName, formData, true));
+      console.log('routeName', routeName, 'formData', formData, 'main', main, 'sub', sub);
       return _obj.news[main].call(undefined, sub, formData, isJson);
     },
     news: {
@@ -20,12 +21,8 @@ const API = (() => {
               return Routes.go(Routes.view('news.view', {id: data.id}))
             });
         } else {
-          let {page, limit} = Pagination.set(Routes.query());
-          let [routeName, bindings] = (page > 0 && limit > 0)
-            ? ['news.index.pages', {page, limit}]
-            : ['news.index', null];
-
-          return XHR.get(Routes.api(routeName, bindings))
+          let bindings = Pagination.set(Routes.query());
+          return XHR.get(Routes.api('news.index', bindings))
             .then(data => {
               // ToDo: revert to Storage and/or webDB
               REPO.set('news', data['items']);
@@ -37,12 +34,22 @@ const API = (() => {
         let [id, ...sub] = subRoute;
         return XHR.get(Routes.api('news.view', {id}))
           .then(data => {
+            console.log('api.news.view', data);
             // ...
           });
       },
       // Made 'async' so Promise (.then()) is returned to the caller
       create: async () => {
         // ...
+      },
+      delete: (subRoute) => {
+        let [id, ...sub] = subRoute;
+        console.log('id', id, 'sub', sub);
+        return XHR.post(Routes.api('news.delete', {id}), {id}, true)
+          .then(data => {
+            console.log('api.news.delete', data);
+            // ...
+          });
       },
     },
   };

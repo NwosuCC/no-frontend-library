@@ -2,41 +2,7 @@
 declare(strict_types=1);
 
 $url = explode('/', urldecode($_GET['r']));
-
-switch ((string)$url[0]) {
-    case 'index' :
-        {
-            // --test: mimics loading time on browser
-            sleep(1);
-            if (!empty($_POST)) {
-                $data = newsStore($_POST, $_FILES);
-            } else {
-                $data = newsIndex((int)$_GET['page'], (int)$_GET['limit']);
-            }
-        }
-        break;
-    case 'view' :
-        {
-            // --test: mimics loading time on browser
-            sleep(1);
-            $data = newsView((int)$url[1]);
-        }
-        break;
-    case 'create' :
-        {
-            // --test: mimics loading time on browser
-            sleep(1);
-            $data = newsCreate();
-        }
-        break;
-    case 'image-default' :
-        {
-            $data = [
-                'imageUrl' => APP_URL . 'assets/images/image-placeholder.png',
-            ];
-        }
-        break;
-}
+$data = resolve((string)$url[0], $url[1] ?? '');
 
 if ($data === null) {
     if (!empty($_POST)) {
@@ -56,3 +22,26 @@ if ($data === null) {
 // Ajax Response Data
 http_response_code($responseCode);
 die(json_encode(['data' => $data]));
+
+
+function resolve(string $route, string $id = '')
+{
+    // --test: mimics loading time on browser
+    sleep(1);
+    switch ($route) {
+        case 'index':
+            return newsIndex((int)$_GET['page'], (int)$_GET['limit']);
+        case 'view' :
+            return newsView((int)$id);
+        case 'create' :
+            return newsCreate();
+        case 'store' :
+            return newsStore($_POST, $_FILES);
+        case 'delete' :
+            return newsDelete((int)$id);
+        case 'image-default' :
+            return ['imageUrl' => APP_URL . 'assets/images/image-placeholder.png'];
+        default:
+            return null;
+    }
+}

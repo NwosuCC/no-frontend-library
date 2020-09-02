@@ -109,6 +109,15 @@ function newsStore(array $post, array $file = null): ?array
     return compact('id');
 }
 
+function newsDelete(int $id): bool
+{
+    try {
+        return removeFromRepo($id) > 0;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 function addToRepo(array $news): void
 {
     if (empty($_SESSION['cache']['news'])) {
@@ -118,6 +127,20 @@ function addToRepo(array $news): void
     if (!in_array($news['id'], $newsIDs, false)) {
         $_SESSION['cache']['news'][] = $news;
     }
+}
+
+function removeFromRepo(int $id): int
+{
+    if (empty($_SESSION['cache']['news'])) {
+        newsIndex();
+    }
+    foreach ($_SESSION['cache']['news'] as $i => $row) {
+        if ($row['id'] === $id) {
+            unset($_SESSION['cache']['news'][$i]);
+            return 1;
+        }
+    }
+    return 0;
 }
 
 function upload($file): ?string
