@@ -6,7 +6,7 @@ const Form = (() => {
     formData: null,
     asJson: false,
     init: (formId, {texts, files}) => {
-      _obj.formElement = Dom.el(`form#${formId}`);
+      _obj.formElement = Dom.getElement(`form#${formId}`);
       _obj.formInputIds = {texts, files};
       _obj.formData = _obj.asJson === true ? {} : new FormData();
     },
@@ -20,10 +20,10 @@ const Form = (() => {
     extractData: () => {
       // ToDo: validate form and post
       _obj.formInputIds.texts.forEach(id => {
-        _obj.setValue(id, Dom.el(`#${id}`, _obj.formElement).value)
+        _obj.setValue(id, Dom.getElement(`#${id}`, _obj.formElement).value)
       });
       _obj.formInputIds.files.forEach(id => {
-        _obj.setValue(id, Dom.el(`#${id}`, _obj.formElement).files[0]);
+        _obj.setValue(id, Dom.getElement(`#${id}`, _obj.formElement).files[0]);
       });
       return _obj;
     },

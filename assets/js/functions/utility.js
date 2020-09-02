@@ -1,5 +1,10 @@
 const Util = (() => ({
   Object: (function () {
+    const validateParam = (value) => {
+      if (!_obj.isObject(value)) {
+        throw new Error('Supplied param is not a valid object');
+      }
+    };
     const _obj = {
       getOrDefault(value, defaultValue = "") {
         return _obj.isFalsy(value) ? defaultValue : value;
@@ -9,8 +14,8 @@ const Util = (() => ({
         // NOTE: String([]) === '', String(<a href=""></a>) === ""
         return value === null || (typeof value !== 'object' && Empties.includes(String(value).trim()));
       },
-      isObject(obj) {
-        return !_obj.isFalsy(obj) && isNaN(obj.length);
+      isObject(value) {
+        return !_obj.isFalsy(value) && isNaN(value.length);
       },
       isEmpty(value) {
         if (_obj.isObject(value)) {
@@ -20,6 +25,15 @@ const Util = (() => ({
           return value.length === 0;
         }
         return true;
+      },
+      flip(value) {
+        validateParam(value);
+        return Object.entries(value).reduce((all, [key, value]) => ({ ...all, [value]: key }), {});
+      },
+      subset(object, keys) {
+        validateParam(object);
+        let entriesSubset = Object.entries(object).filter(([key]) => keys.indexOf(key) >= 0);
+        return Object.fromEntries(entriesSubset);
       },
     };
     return _obj
@@ -92,6 +106,9 @@ const Util = (() => ({
         let [integer, fraction] = splitNewNumber;
         return (fraction) ? newNumber : integer;
       },
+      windowTimestamp() {
+        return String(window.performance.now()).split('.').join('');
+      }
     };
     return _obj;
   })(),

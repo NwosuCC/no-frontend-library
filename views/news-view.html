@@ -24,7 +24,45 @@
     <!-- Offset left -->
     <div class="col-0 col-sm-1 col-md-2 d-xs-none"></div>
     <div class="col-12 col-sm-10 col-md-8">
-      <img src="http://127.0.0.1/deciano/news/storage/u-pics/03839c3365a10.jpg" class="img slide-image" alt="avatar" style="height: 35vw; width: 100%;" />
+
+      <!-- Slides Container :: full-width images with number and caption texts -->
+      <div class="slides-container">
+        <!-- Slide item 1 -->
+        <div class="slide-item fade">
+          <div class="number-text">1 / 3</div>
+          <img src="http://127.0.0.1:8090/deciano/news/storage/u-pics/03839c3365a10.jpg" class="img slide-image" alt="avatar" />
+          <div class="caption-text">Caption Text</div>
+        </div>
+
+        <!-- Slide item 2 -->
+        <div class="slide-item fade">
+          <div class="number-text">2 / 3</div>
+<!--          <img data-prop="slide-image" src="" class="img img-circle avatar" alt="slideImage" />-->
+          <img src="http://127.0.0.1:8090/deciano/news/storage/u-pics/da4867e33c2c2.jpg" class="img slide-image" alt="avatar" />
+          <div class="caption-text">Caption Two</div>
+        </div>
+
+        <!-- Slide item 3 -->
+        <div class="slide-item fade">
+          <div class="number-text">3 / 3</div>
+          <img src="http://127.0.0.1:8090/deciano/news/storage/u-pics/f5c742df6cf66.png" class="img slide-image" alt="avatar" />
+          <div class="caption-text">Caption Three</div>
+        </div>
+
+        <!-- Slide Navigation Buttons :: Next and previous -->
+        <div class="slide-arrows">
+          <div class="slide-arrow prev" onclick="plusSlides(-1)">&#10094;</div>
+          <div class="slide-arrow next" onclick="plusSlides(1)">&#10095;</div>
+        </div>
+
+        <!-- Slide Navigation Dots -->
+        <div class="slide-dots">
+          <span class="slide-dot" onclick="currentSlide(1)"></span>
+          <span class="slide-dot" onclick="currentSlide(2)"></span>
+          <span class="slide-dot" onclick="currentSlide(3)"></span>
+        </div>
+      </div>
+
     </div>
     <!-- Offset right -->
     <div class="col-0 col-sm-1 col-md-2 d-xs-none"></div>
@@ -54,7 +92,7 @@
     </div>
     <div class="col d-flex text-muted" style="justify-content: space-around; width: 1px;">
       <div class="text-center" style="margin: -5px 5px 0 0;">~</div>
-      <div class="b b-g b-o d-flex text-center" style="height: 12px; padding: 0 2px;">*</div>
+      <div class="b b-g b-circle d-flex text-center" style="height: 12px; padding: 0 2px;">*</div>
       <div class="text-center" style="margin: -5px 0 0 5px;">~</div>
     </div>
     <div class="col-5">
@@ -64,7 +102,7 @@
 
   <div class="row mb-4 mx-3">
     <div class="col-12 text-center">
-      <img src="http://127.0.0.1/deciano/news/assets/images/profile/avatar_male.png" class="img img-circle avatar" alt="avatar" />
+      <img src="http://127.0.0.1:8090/deciano/news/assets/images/profile/avatar_male.png" class="img img-circle avatar" alt="avatar" />
     </div>
     <div class="col-12 text-center">
       <div style="padding-top: 5px;">Fred Gattuso</div>
@@ -89,7 +127,7 @@
         <div class="col-0 col-lg-2 d-xs-none d-sm-none d-md-none"></div>
         <!-- Commenter Photo -->
         <div class="col-2 col-lg-2 text-center">
-          <img src="http://127.0.0.1/deciano/news/assets/images/profile/avatar_male.png" class="img img-circle avatar-responsive" alt="avatar" />
+          <img src="http://127.0.0.1:8090/deciano/news/assets/images/profile/avatar_male.png" class="img img-circle avatar-responsive" alt="avatar" />
         </div>
         <!-- Comment :: Large screen -->
         <div class="col-10 col-lg-6 d-xs-none">

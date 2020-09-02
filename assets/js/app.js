@@ -26,8 +26,9 @@ const initialize = () => {
     'news.delete': (event) => {
       event.preventDefault();
       if (confirm(`Delete this record?`)) {
-        // ToDo: update this to grab the actual record id
-        API.post('news.delete', {id: event.target.id});
+        let tmpData = REPO.get(Dom.getAttribute(event.target, 'data-tmp'));
+        API.post('news.delete', {id: tmpData.id});
+        // redirect to 'index'
       }
     }
   });
@@ -57,7 +58,7 @@ window.onload = () => {
           .then(() => {
             // Iterates over Api-Dom elements (=> that expect to be populated with data) and loads in their data
             Dom
-              .els('.api-dom')
+              .getElements('.api-dom')
               .forEach(element => {
                 DomLoader.load(element);
               });

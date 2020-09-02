@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en-US">
 <head>
-  <meta charset="utf-8"><meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta charset="utf-8"><meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>News</title>
   <link href='assets/css/web-fonts/font-catamaran.css' rel='stylesheet' type='text/css'>
   <link href='assets/css/app.css' rel='stylesheet' type='text/css'>
@@ -31,4 +31,59 @@
 <script src="assets/js/functions/xhr.js"></script>
 <script src="assets/js/functions/api.js"></script>
 <script src="assets/js/app.js"></script>
+<script>
+  function initSlides() {
+    var slideIndex = 1;
+    var slideTimeout;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+      clearTimeout(slideTimeout);
+      showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+      clearTimeout(slideTimeout);
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("slide-item");
+      var dots = document.getElementsByClassName("slide-dot");
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+      slideTimeout = setTimeout(() => showSlides(++slideIndex), 2000); // Change image every 2 seconds
+    }
+
+    return {
+      plusSlides, currentSlide, showSlides
+    }
+  }
+
+  let plusSlides, currentSlide, showSlides;
+  setTimeout(() => {
+    if (document.getElementsByClassName('slides-container').length > 0) {
+        let slidesHandlers = initSlides();
+        plusSlides = slidesHandlers.plusSlides;
+        currentSlide = slidesHandlers.currentSlide;
+        showSlides = slidesHandlers.showSlides;
+    }
+  }, 1000);
+
+</script>
 </html>
