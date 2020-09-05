@@ -18,14 +18,14 @@
     <!-- pagination auto-inserted here -->
   </div>
 
-  <div class="table-box b b-g by-0">
+  <div class="table-box">
     <table class="table news-list">
       <thead>
       <tr>
         <th style="width: 5%;">ID</th>
-        <th style="width: 15%;">Title</th>
+        <th style="width: 25%;">Title</th>
         <th style="width: 40%;">Body</th>
-        <th style="width: 25%;">Author</th>
+        <th style="width: 20%;">Author</th>
         <th style="width: 15%;">Action</th>
       </tr>
       </thead>
@@ -36,7 +36,9 @@
         <!-- Title -->
         <td data-text="prop:title"></td>
         <!-- Body -->
-        <td data-text="prop:body"></td>
+        <td class="">
+          <div data-text="prop:body" class=" truncate-3" style="height: 100%;"></div>
+        </td>
         <!-- Author -->
         <td class="w-25">
           <div style="display: flex;">

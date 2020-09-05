@@ -97,6 +97,40 @@ textarea {
     text-align: right !important;
 }
 
+.text-justify {
+    text-align: justify !important;
+}
+
+.text-lowercase {
+    text-transform: lowercase !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-capitalize {
+    text-transform: capitalize !important;
+}
+
+.text-monospace {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+.text-wrap {
+    white-space: normal !important;
+}
+
+.text-nowrap {
+    white-space: nowrap !important;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 
 .p-0 {
     padding: 0 !important;
@@ -1147,14 +1181,18 @@ img.avatar {
     padding: 5px 0;
 }
 
+.table {
+    border: solid 1px lightgrey;
+    border-spacing: 0;
+}
 .table-box {
     overflow-x: scroll;
+    border-left: solid 1px darkgrey;
+    border-right: solid 1px darkgrey;
 }
-
-.table {
-    border-left: solid 1px lightgrey;
-    border-top: solid 1px lightgrey;
-    border-spacing: 0;
+.table-box .table {
+    border-left: 0;
+    border-right: 0;
 }
 
 .table th, .table td {
@@ -1162,7 +1200,6 @@ img.avatar {
     padding: 10px;
     vertical-align: top;
     text-align: initial;
-    text-wrap: revert;
     word-wrap: unset;
 }
 
@@ -1170,22 +1207,27 @@ img.avatar {
     border-right: solid 1px lightgrey;
     border-bottom: solid 1px lightgrey;
 }
+.table thead tr th:last-child, .table tbody tr td:last-child {
+    border-right: 0;
+}
+.table tbody tr:last-child td {
+    border-bottom: 0;
+}
 
-.table.no-border, .table.no-border th, .table.no-border td {
+.table-box.no-border, .table-box.no-border .table,
+.table-box.no-border .table th, .table-box.no-border .table td {
     border-width: 0;
-}
-
-.table-borders {
-    border-left: solid 1px grey;
-    border-top: solid 1px grey;
-}
-
-.table-borders th, .table-borders td {
-    border-right: solid 1px grey;
-    border-bottom: solid 1px grey;
 }
 
 .match-table th:nth-child(8), .match-table td:nth-child(8) {
     border-left: double 10px
+}
+
+.truncate-3, td.truncate-3 {
+    height: calc(23px * 3) !important;
+    /*height: 35px !important;*/
+    /*max-width: 150px !important;*/
+    cursor: vertical-text;
+    overflow: hidden;
 }
 
