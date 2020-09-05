@@ -6,6 +6,7 @@ const Pagination = (() => {
     page: null,
     limit: null,
     allowedLimits: [2, 5, 10, 20, 50, 100],
+    firstRowNum: null,
     reset: () => {
       _obj.el = null;
       _obj.total = null;
@@ -24,6 +25,12 @@ const Pagination = (() => {
         counts = {from: 0, to: 0, of: 0};
       }
       return {total, page, limit, pages, counts};
+    },
+    first: () => {
+      if (_obj.firstRowNum === null) {
+        _obj.firstRowNum = _obj.get().counts.from;
+      }
+      return _obj.firstRowNum;
     },
     set: (parameters, item) => {
       let {total, page, limit} = parameters;
@@ -166,6 +173,6 @@ const Pagination = (() => {
     },
   };
 
-  let { reset, set, get } = _obj;
-  return { reset, set, get };
+  let { reset, set, get, first } = _obj;
+  return { reset, set, get, first };
 })();

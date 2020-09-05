@@ -234,20 +234,21 @@ const DomLoader = (() => {
       return [srcType, key] = Dom.getAttribute(element, dataAttribute).split(':');
     },
     // Retrieves the value of a [data-] attribute (e.g [data-text="prop:surname" => repoRecord[surname])
-    getDataValue: (element, dataAttribute, repoRecord) => {
+    getDataValue: (element, dataAttribute, repoRecord, index) => {
       let [srcType, key] = _obj.getDataSrcTypeAndKey(element, dataAttribute);
       switch (srcType) {
+        case 'sn': return Pagination.first() + index;
         case 'prop': return repoRecord[key];
         case 'props': return Util.Object.subset(repoRecord, key.split(','));
         case 'route': return Routes.view(key, repoRecord);
       }
     },
     // Iterates through the row data and populates the column elements (elements having [data-text] attribute)
-    updateColumnsData: (repoRecord, rowClone) => {
+    updateColumnsData: (repoRecord, rowClone, index) => {
       Dom
         .getElements('[data-text]', rowClone)
         .forEach(columnElement => {
-          columnElement.textContent = _obj.getDataValue(columnElement, 'data-text', repoRecord);
+          columnElement.textContent = _obj.getDataValue(columnElement, 'data-text', repoRecord, index);
           columnElement.removeAttribute('data-text');
         });
       Dom
@@ -353,10 +354,10 @@ const DomLoader = (() => {
 
       } else {
         // B.) [repoItems] contains items => iterate through the items, inserting one row element for each item
-        _obj.repoItems.forEach(repoItem => {
+        _obj.repoItems.forEach((repoItem, index) => {
           let dataRowClone = _obj.rowElement.cloneNode(true);
           _obj
-            .updateColumnsData(repoItem, dataRowClone)
+            .updateColumnsData(repoItem, dataRowClone, index)
             .updateLinks(repoItem, dataRowClone)
             .updateHandlers(dataRowClone)
             .appendRow(dataRowClone);

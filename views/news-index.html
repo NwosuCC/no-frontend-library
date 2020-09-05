@@ -1,7 +1,7 @@
 
 <h1 class="news-header">
   <span>News</span>
-  <span style="font-size: 70%;" class="font-weight-mid"> : : Index</span>
+  <small class="fw-mid fs-p70"> :: Index</small>
 </h1>
 <hr class="hr-line" />
 
@@ -22,31 +22,44 @@
     <table class="table news-list">
       <thead>
       <tr>
-        <th style="width: 5%;">ID</th>
+        <th style="width: 3%;">#</th>
         <th style="width: 25%;">Title</th>
-        <th style="width: 40%;">Body</th>
-        <th style="width: 20%;">Author</th>
-        <th style="width: 15%;">Action</th>
+        <th style="width: 37%;">Body</th>
+        <th style="width: 15%;">Author</th>
+        <th style="width: 20%;">Action</th>
       </tr>
       </thead>
       <tbody class="w-100 d-cloak">
       <tr class="data-row" data-collection="news">
         <!-- ID -->
-        <td data-text="prop:id" class="text-center b-d"></td>
+        <td data-text="sn:index" class="text-center b-d"></td>
         <!-- Title -->
-        <td data-text="prop:title"></td>
+        <td>
+          <a data-link="route:news.view" href data-text="prop:title"></a>
+        </td>
         <!-- Body -->
-        <td class="">
-          <div data-text="prop:body" class=" truncate-3" style="height: 100%;"></div>
+        <td>
+          <div class="truncate truncate-2">
+            <div data-text="prop:body" class="text-box"></div>
+<!--            <div class="read-more" style="width: 80px !important; left: calc(100% - 80px);">-->
+<!--              <a data-link="route:news.view" href>...more</a>-->
+<!--            </div>-->
+            <div class="read-more">
+              <a data-link="route:news.view" href>
+                <span class="dot-arrow">
+                  <span class="fs-p70">&bullet; &bullet;</span><span class="align-middle">&raquo;</span>
+                </span>
+              </a>
+            </div>
+          </div>
         </td>
         <!-- Author -->
         <td class="w-25">
-          <div style="display: flex;">
+          <div class="d-flex">
             <img data-link="prop:avatar" src="" class="img img-circle avatar" alt="avatar" />
-            <span style="padding: 10px 5px;">
-            <span data-text="prop:author" style="display: block;"></span>
-            <small data-text="prop:date" style="color: grey;"></small>
-          </span>
+            <div class="d-flex align-items-center px-1">
+              <span data-text="prop:author"></span>
+            </div>
           </div>
         </td>
         <!-- Actions -->
