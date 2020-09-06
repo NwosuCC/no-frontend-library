@@ -605,6 +605,9 @@ textarea {
     padding-left: 20px;
     padding-right: 20px;
 }
+.container.container-lifted {
+    padding-bottom: 20px;
+}
 .container .container-px-0 {
     margin-left: -20px;
     margin-right: -20px;
@@ -613,6 +616,9 @@ textarea {
     .container {
         padding-left: 15px;
         padding-right: 15px;
+    }
+    .container.container-lifted {
+        padding-bottom: 15px;
     }
     .container .container-px-0 {
         margin-left: -15px;
@@ -624,6 +630,9 @@ textarea {
         padding-left: 10px;
         padding-right: 10px;
     }
+    .container.container-lifted {
+        padding-bottom: 10px;
+    }
     .container .container-px-0 {
         margin-left: -10px;
         margin-right: -10px;
@@ -633,6 +642,9 @@ textarea {
     .container {
         padding-left: 5px;
         padding-right: 5px;
+    }
+    .container.container-lifted {
+        padding-bottom: 5px;
     }
     .container .container-px-0 {
         margin-left: -5px;
