@@ -342,6 +342,37 @@ textarea {
     margin-right: 30px !important;
 }
 
+.m-5 {
+    margin: 40px !important;
+}
+.mt-5 {
+    margin-top: 40px !important;
+}
+.mb-5 {
+    margin-bottom: 40px !important;
+}
+.my-5 {
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+.ml-5 {
+    margin-left: 40px !important;
+}
+.mr-5 {
+    margin-right: 40px !important;
+}
+.mx-5 {
+    margin-left: 40px !important;
+    margin-right: 40px !important;
+}
+
+@media (min-width: 768px) {
+    .my-sm-5 {
+        margin-top: 40px !important;
+        margin-bottom: 40px !important;
+    }
+}
+
 @media (max-width: 575px) {
     .d-xs-none {
         display: none;
@@ -903,6 +934,7 @@ img.avatar {
 .row > .col-10,
 .row > .col-11,
 .row > .col-12 {
+    margin-top: 15px !important;
     padding-left: 15px !important;
     padding-right: 15px !important;
     word-wrap: break-word;
@@ -1359,12 +1391,15 @@ img.avatar {
 
 }
 .form-control {
-    width: calc(100% - 30px);
+    width: 100%;
     border: solid 1px lightgrey;
-    border-radius: 3px;
+    border-radius: 2px;
     padding: 5px 15px;
     font-size: 14px;
     line-height: 1.4;
+}
+.form-control:not(textarea) {
+    height: 32px;
 }
 .form-control:focus {
     outline: none;

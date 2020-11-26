@@ -376,7 +376,9 @@ const DomLoader = (() => {
     },
     loadStandaloneElements: async () => {
       await _obj.attrs.forEach(attr => {
+        console.log('attr', attr);
         Dom.getElements(`[${attr}]`, _obj.element).forEach(el => {
+          console.log('el', el);
           if (Dom.getParentsUntil(el, '.d-cloaked') || Dom.getParentsUntil(el, '.data-row')) {
             return;
           }

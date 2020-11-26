@@ -99,13 +99,13 @@ const Routes = (() => {
 
     bindValues: (route, bindings) => {
       let url = (() => route.uri)();
-      if (Util.Object.isObject(bindings)) {
-        route.params.forEach(param => {
-          if (bindings.hasOwnProperty(param)) {
-            url = url.replace(new RegExp(`:${param}`, 'gi'), bindings[param]);
-          }
-        });
+      if (!Util.Object.isObject(bindings)) {
+        bindings = {};
       }
+      route.params.forEach(param => {
+        let paramValue = bindings.hasOwnProperty(param) ? bindings[param] : '';
+        url = url.replace(new RegExp(`:${param}`, 'gi'), paramValue);
+      });
       return url;
     },
 

@@ -1,79 +1,83 @@
 
-<h1 class="news-header container-w100 mt-0 pt-1 px-3">
-  <span>News</span>
-  <small class="fw-mid fs-p70"> :: Index</small>
-</h1>
+<div class="api-dom">
 
-<div class="table-container api-dom">
-  <!-- "Create" button -->
-  <div class="table-cta table-cta-create">
-    <a data-link="news.create" href>
-      <button class="btn btn-warning btn-sm">Add News</button>
-    </a>
-  </div>
+  <h1 class="news-header container-w100 mt-0 pt-1 px-3">
+    <span>News</span>
+    <small class="fw-mid fs-p70"> :: Index</small>
+  </h1>
 
-  <!-- Auto Pagination -->
-  <div class="table-pagination" data-pagination="news">
-    <!-- pagination auto-inserted here -->
-  </div>
+  <div class="table-container">
+    <!-- "Create" button -->
+    <div class="table-cta table-cta-create">
+      <a data-link="route:news.create" href>
+        <button class="btn btn-warning btn-sm">Add News</button>
+      </a>
+    </div>
 
-  <div class="table-box">
-    <table class="table news-list">
-      <thead>
-      <tr>
-        <th style="width: 3%;">#</th>
-        <th style="width: 25%;">Title</th>
-        <th style="width: 37%;">Body</th>
-        <th style="width: 15%;">Author</th>
-        <th style="width: 20%;">Action</th>
-      </tr>
-      </thead>
-      <tbody class="w-100 d-cloak">
-      <tr class="data-row" data-collection="news">
-        <!-- ID -->
-        <td data-text="sn:index" class="text-center b-d"></td>
-        <!-- Title -->
-        <td>
-          <a data-link="route:news.view" href data-text="prop:title"></a>
-        </td>
-        <!-- Body -->
-        <td>
-          <div class="truncate truncate-2">
-            <div data-text="prop:body" class="text-box"></div>
-<!--            <div class="read-more" style="width: 80px !important; left: calc(100% - 80px);">-->
-<!--              <a data-link="route:news.view" href>...more</a>-->
-<!--            </div>-->
-            <div class="read-more">
-              <a data-link="route:news.view" href>
-                <span class="dot-arrow">
-                  <span class="fs-p70">&bullet; &bullet;</span><span class="align-middle">&raquo;</span>
-                </span>
-              </a>
+    <!-- Auto Pagination -->
+    <div class="table-pagination" data-pagination="news">
+      <!-- pagination auto-inserted here -->
+    </div>
+
+    <div class="table-box">
+      <table class="table news-list">
+        <thead>
+        <tr>
+          <th style="width: 3%;">#</th>
+          <th style="width: 25%;">Title</th>
+          <th style="width: 37%;">Body</th>
+          <th style="width: 15%;">Author</th>
+          <th style="width: 20%;">Action</th>
+        </tr>
+        </thead>
+        <tbody class="w-100 d-cloak">
+        <tr class="data-row" data-collection="news">
+          <!-- ID -->
+          <td data-text="sn:index" class="text-center b-d"></td>
+          <!-- Title -->
+          <td>
+            <a data-link="route:news.view" href data-text="prop:title"></a>
+          </td>
+          <!-- Body -->
+          <td>
+            <div class="truncate truncate-2">
+              <div data-text="prop:body" class="text-box"></div>
+  <!--            <div class="read-more" style="width: 80px !important; left: calc(100% - 80px);">-->
+  <!--              <a data-link="route:news.view" href>...more</a>-->
+  <!--            </div>-->
+              <div class="read-more">
+                <a data-link="route:news.view" href>
+                  <span class="dot-arrow">
+                    <span class="fs-p70">&bullet; &bullet;</span><span class="align-middle">&raquo;</span>
+                  </span>
+                </a>
+              </div>
             </div>
-          </div>
-        </td>
-        <!-- Author -->
-        <td class="w-25">
-          <div class="d-flex">
-            <img data-link="prop:avatar" src="" class="img img-circle avatar" alt="avatar" />
-            <div class="d-flex align-items-center px-1">
-              <span data-text="prop:author"></span>
+          </td>
+          <!-- Author -->
+          <td class="w-25">
+            <div class="d-flex">
+              <img data-link="prop:avatar" src="" class="img img-circle avatar" alt="avatar" />
+              <div class="d-flex align-items-center px-1">
+                <span data-text="prop:author"></span>
+              </div>
             </div>
-          </div>
-        </td>
-        <!-- Actions -->
-        <td>
-          <a data-link="route:news.view" href="" class="mb-1 btn btn-icon btn-info btn-outline">i</a>
-          <a data-handler="click:news.delete" data-params="props:id,title" href
-             class="mb-1 no-hover btn btn-icon btn-danger btn-outline">&times;</a>
-        </td>
-      </tr>
-      <!-- Shown when API data contains no items -->
-      <!-- For a table (like this one), this 'no-results' row (<tr>) can be automatically inserted here -->
-      <!--    <tr class="data-row-empty">-->
-      <!--      <td colspan="4" class="text-center">Amazing things!</td>-->
-      <!--    </tr>-->
-      </tbody>
-    </table>
+          </td>
+          <!-- Actions -->
+          <td>
+            <a data-link="route:news.view" href="" class="mb-1 btn btn-icon btn-info btn-outline">i</a>
+            <a data-handler="click:news.delete" data-params="props:id,title" href
+               class="mb-1 no-hover btn btn-icon btn-danger btn-outline">&times;</a>
+          </td>
+        </tr>
+        <!-- Shown when API data contains no items -->
+        <!-- For a table (like this one), this 'no-results' row (<tr>) can be automatically inserted here -->
+        <!--    <tr class="data-row-empty">-->
+        <!--      <td colspan="4" class="text-center">Amazing things!</td>-->
+        <!--    </tr>-->
+        </tbody>
+      </table>
+    </div>
   </div>
+
 </div>

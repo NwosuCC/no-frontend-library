@@ -13,22 +13,15 @@ const API = (() => {
       return _obj.news[main].call(undefined, sub, formData, isJson);
     },
     news: {
-      index: (...args) => {
-        let [, formData, isJson] = args;
-        if (Util.Object.isObject(formData)) {
-          return XHR.post(Routes.api('news.index'), formData, isJson)
-            .then(data => {
-              return Routes.go(Routes.view('news.view', {id: data.id}))
-            });
-        } else {
-          let bindings = Pagination.set(Routes.query());
-          return XHR.get(Routes.api('news.index', bindings))
-            .then(data => {
-              // ToDo: revert to Storage and/or webDB
-              REPO.set('news', data['items']);
-              Pagination.set(data, 'news');
-            });
-        }
+      index: () => {
+        let bindings = Pagination.set(Routes.query());
+        console.log('api.news.index bindings', bindings);
+        return XHR.get(Routes.api('news.index', bindings))
+          .then(data => {
+            // ToDo: revert to Storage and/or webDB
+            REPO.set('news', data['items']);
+            Pagination.set(data, 'news');
+          });
       },
       view: (subRoute) => {
         let [id, ...sub] = subRoute;
@@ -39,8 +32,15 @@ const API = (() => {
           });
       },
       // Made 'async' so Promise (.then()) is returned to the caller
-      create: async () => {
+      create: async (formData, isJson) => {
         // ...
+      },
+      store: (...args) => {
+        let [, formData, isJson] = args;
+        return XHR.post(Routes.api('news.store'), formData, isJson)
+          .then(data => {
+            return Routes.go(Routes.view('news.view', {id: data.id}))
+          });
       },
       delete: (subRoute) => {
         let [id, ...sub] = subRoute;
